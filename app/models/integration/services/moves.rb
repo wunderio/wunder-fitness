@@ -1,6 +1,5 @@
 class Integration::Services::Moves < Integration::Service
   def configuration
-    @oauth_version = 2
     @oauth_scopes = "activity"
     @oauth_authorize_url = "/oauth/v1/authorize"
     @oauth_token_url = "/oauth/v1/access_token"

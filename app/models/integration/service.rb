@@ -1,5 +1,4 @@
 class Integration::Service
-  attr_reader :oauth_version
   attr_reader :oauth_scopes
   attr_reader :oauth_authorize_url
   attr_reader :oauth_token_url
@@ -15,9 +14,6 @@ class Integration::Service
     @client_id = Figaro.env.send(name + "_client_id!")
     @client_secret = Figaro.env.send(name + "_client_secret!")
     @site_url = Figaro.env.send(name + "_site_url!")
-
-    # Defaults
-    @oauth_version = 2
     @oauth_headers = {}
 
     # Call configuration method.

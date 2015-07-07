@@ -13,22 +13,20 @@ class Integration::AuthorizationController < ApplicationController
         existing_integration_user = current_user.integration_user(service_machine_name)
         service.access_token = existing_integration_user.token if existing_integration_user
 
-        if service.oauth_version == 2
-          options = {
-            :site => service.site_url,
-          }
-          options[:authorize_url] = service.oauth_authorize_url if service.oauth_authorize_url
-          oauth2_client = OAuth2::Client.new(service.client_id, service.client_secret, options)
-          service.oauth2_client = oauth2_client
-          service.update_activities(existing_integration_user)
+        options = {
+          :site => service.site_url,
+        }
+        options[:authorize_url] = service.oauth_authorize_url if service.oauth_authorize_url
+        oauth2_client = OAuth2::Client.new(service.client_id, service.client_secret, options)
+        service.oauth2_client = oauth2_client
+        service.update_activities(existing_integration_user)
 
-          authorize_options = {
-            :redirect_uri => "http://127.0.0.1:8888/oauth2/callback/authorization/#{service_machine_name}",
-          }
-          authorize_options[:scope] = service.oauth_scopes if service.oauth_scopes
-          authorize_url = oauth2_client.auth_code.authorize_url(authorize_options)
-          @service_connect_links << {:service => service, :integration_user => existing_integration_user, :url => authorize_url}
-        end
+        authorize_options = {
+          :redirect_uri => "http://127.0.0.1:8888/oauth2/callback/authorization/#{service_machine_name}",
+        }
+        authorize_options[:scope] = service.oauth_scopes if service.oauth_scopes
+        authorize_url = oauth2_client.auth_code.authorize_url(authorize_options)
+        @service_connect_links << {:service => service, :integration_user => existing_integration_user, :url => authorize_url}
       end
     end
   end
