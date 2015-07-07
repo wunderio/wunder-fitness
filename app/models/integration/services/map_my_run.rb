@@ -1,7 +1,7 @@
 class Integration::Services::MapMyRun < Integration::Service
   def configuration
     @oauth_scopes = nil
-    @oauth_authorize_url = "/v7.1/oauth2/authorize"
+    @oauth_authorize_url = "https://mapmyfitness.com/v7.1/oauth2/authorize"
     @oauth_token_url = "https://oauth2-api.mapmyapi.com/v7.1/oauth2/uacf/access_token"
     @oauth_headers = {
       "Api-Key" => @client_id,
