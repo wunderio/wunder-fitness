@@ -12,7 +12,6 @@ class Integration::AuthorizationController < ApplicationController
         # and inject possible token to service.
         existing_integration_user = current_user.integration_user(service_machine_name)
         service.access_token = existing_integration_user.token if existing_integration_user
-        service.update_activities(existing_integration_user)
 
         if service.oauth_version == 2
           options = {
@@ -20,11 +19,14 @@ class Integration::AuthorizationController < ApplicationController
           }
           options[:authorize_url] = service.oauth_authorize_url if service.oauth_authorize_url
           oauth2_client = OAuth2::Client.new(service.client_id, service.client_secret, options)
+          service.oauth2_client = oauth2_client
+          service.update_activities(existing_integration_user)
 
-          authorize_url = oauth2_client.auth_code.authorize_url(
+          authorize_options = {
             :redirect_uri => "http://127.0.0.1:8888/oauth2/callback/authorization/#{service_machine_name}",
-            :scope => service.oauth_scopes
-          )
+          }
+          authorize_options[:scope] = service.oauth_scopes if service.oauth_scopes
+          authorize_url = oauth2_client.auth_code.authorize_url(authorize_options)
           @service_connect_links << {:service => service, :integration_user => existing_integration_user, :url => authorize_url}
         end
       end
@@ -44,8 +46,7 @@ class Integration::AuthorizationController < ApplicationController
     # Get service from URL.
     service_name = params[:service]
     load "app/models/integration/services/#{service_name}.rb"
-    service_class = Integration::Services.const_get(service_name.camelize)
-    service = service_class.new
+    service = Integration::Services.const_get(service_name.camelize).new
     code_value = params[:code]
 
     if code_value.blank?
@@ -59,7 +60,11 @@ class Integration::AuthorizationController < ApplicationController
     }
     options[:token_url] = service.oauth_token_url if service.oauth_token_url
     client = OAuth2::Client.new(service.client_id, service.client_secret, options)
-    token_data = client.auth_code.get_token(code_value, :redirect_uri => "http://127.0.0.1:8888/oauth2/callback/authorization/#{service_name}")
+    token_options = {
+      :redirect_uri => "http://127.0.0.1:8888/oauth2/callback/authorization/#{service_name}"
+    }
+    token_options[:headers] = service.oauth_headers
+    token_data = client.auth_code.get_token(code_value, token_options)
 
     # https://api.moves-app.com/oauth/v1/access_token?grant_type=authorization_code&code=lX7giiuyJr8_5MMK0SMUR4DY0No13n57DpvD4KrJGPJmAG_6zPjVT17H3bZtc9xZ&client_id=AoqJ_H6L9hHB51U6BOzo8yMJnEL9AISr&client_secret=Xz836Xc9iv_Nqtl2M6gH6VeclgF25n9w5PgZfVZbAm33SDWZYXaV4d4rRUFB5QQf&redirect_uri=http://127.0.0.1:8888/oauth2/token/moves
 
