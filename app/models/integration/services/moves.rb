@@ -21,7 +21,7 @@ class Integration::Services::Moves < Integration::Service
           day["segments"].each do |segment|
             segment["activities"].each do |api_activity|
               # Can't be in the transport group.
-              continue if api_activity["group"] == "transport"
+              next if api_activity["group"] == "transport"
 
               # Moves does not have unique IDs for activities. What it has though
               # is obviously a unique start time for each segment and activity.
