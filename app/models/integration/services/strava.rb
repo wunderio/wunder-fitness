@@ -15,7 +15,7 @@ class Integration::Services::Strava < Integration::Service
     end
   end
 
-  def self.user_id(data)
+  def user_id(data)
     data.params["athlete"]["id"]
   end
 end

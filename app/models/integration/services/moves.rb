@@ -39,7 +39,7 @@ class Integration::Services::Moves < Integration::Service
     end
   end
 
-  def self.user_id(data)
+  def user_id(data)
     data["user_id"]
   end
 end
