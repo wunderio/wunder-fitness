@@ -3,10 +3,13 @@ class Integration::Service
   attr_reader :oauth_scopes
   attr_reader :oauth_authorize_url
   attr_reader :oauth_token_url
+  attr_reader :oauth_headers
 
   attr_reader :client_id
   attr_reader :client_secret
   attr_reader :site_url
+
+  attr_accessor :oauth2_client
 
   def initialize
     @client_id = Figaro.env.send(name + "_client_id!")
@@ -16,6 +19,7 @@ class Integration::Service
     # Defaults
     @oauth_version = 2
     @oauth_scopes = "activity"
+    @oauth_headers = {}
 
     # Call configuration method.
     configuration
@@ -38,7 +42,7 @@ class Integration::Service
     @access_token
   end
 
-  def update_activities
+  def update_activities(integration_user)
     raise NotImplementedError "All service subclasses must implement the update_activities method."
   end
 
