@@ -18,7 +18,6 @@ class Integration::Service
 
     # Defaults
     @oauth_version = 2
-    @oauth_scopes = "activity"
     @oauth_headers = {}
 
     # Call configuration method.
