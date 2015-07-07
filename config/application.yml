@@ -1,7 +1,0 @@
-strava_client_id: "7071"
-strava_client_secret: "e409328cecc6cfcd3154a060d608435db65d219e"
-strava_site_url: "https://www.strava.com"
-
-moves_client_id: "AoqJ_H6L9hHB51U6BOzo8yMJnEL9AISr"
-moves_client_secret: "Xz836Xc9iv_Nqtl2M6gH6VeclgF25n9w5PgZfVZbAm33SDWZYXaV4d4rRUFB5QQf"
-moves_site_url: "https://api.moves-app.com"
