@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  service_activity_id: MyString
+  date: 2015-07-03 19:55:26
+  distance: 9.99
+  integration_user_id: 
+
+two:
+  service_activity_id: MyString
+  date: 2015-07-03 19:55:26
+  distance: 9.99
+  integration_user_id: 

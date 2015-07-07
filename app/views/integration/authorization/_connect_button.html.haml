@@ -1,0 +1,7 @@
+- if integration_user
+  %span.h4
+    Connected to 
+    = service.name.humanize
+  = link_to "Reconnect", authorize_url, { :class => "btn btn-danger" }
+- else
+  = link_to "Connect #{service.name.to_s.humanize}", authorize_url, { :class => "btn btn-primary" }

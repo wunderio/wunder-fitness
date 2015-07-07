@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Service activity:
+  = @activity.service_activity_id
+%p
+  %b Date:
+  = @activity.date
+%p
+  %b Distance:
+  = @activity.distance
+%p
+  %b Integration user:
+  = @activity.integration_user
+
+= link_to 'Edit', edit_activity_path(@activity)
+\|
+= link_to 'Back', activities_path

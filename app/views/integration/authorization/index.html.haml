@@ -1,0 +1,4 @@
+%ul
+  - @service_connect_links.each do |link|
+    %li
+      = render partial: "connect_button", locals: { service: link[:service], integration_user: link[:integration_user], authorize_url: link[:url] }
