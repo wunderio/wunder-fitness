@@ -63,7 +63,6 @@ class Integration::AuthorizationController < ApplicationController
 
     # https://api.moves-app.com/oauth/v1/access_token?grant_type=authorization_code&code=lX7giiuyJr8_5MMK0SMUR4DY0No13n57DpvD4KrJGPJmAG_6zPjVT17H3bZtc9xZ&client_id=AoqJ_H6L9hHB51U6BOzo8yMJnEL9AISr&client_secret=Xz836Xc9iv_Nqtl2M6gH6VeclgF25n9w5PgZfVZbAm33SDWZYXaV4d4rRUFB5QQf&redirect_uri=http://127.0.0.1:8888/oauth2/token/moves
 
-    integration_user = current_user.integration_user_by_service_id(service_class.user_id(token_data), service.name)
     integration_user = current_user.integration_user_by_service_id(service.user_id(token_data), service.name)
     integration_user.token = token_data.token
     integration_user.save
