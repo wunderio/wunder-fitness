@@ -14,7 +14,7 @@ class Integration::Services::MapMyRun < Integration::Service
 
   def update_activities(integration_user)
     if @access_token
-      workouts_response = self.query("/v7.1/workout/?user=#{integration_user.user_service_id}", @oauth2_client)
+      workouts_response = self.query("/v7.1/workout/?user=#{integration_user.user_service_id}")
       workouts_data = JSON.parse(workouts_response.body)
       workouts_data["_embedded"]["workouts"].each do |api_activity|
         activity_service_id = api_activity["_links"]["self"]["id"]
@@ -31,8 +31,8 @@ class Integration::Services::MapMyRun < Integration::Service
     data["user_id"]
   end
 
-  def query(path, oauth2_client)
-    token = OAuth2::AccessToken.new(oauth2_client, @access_token)
+  def query(path)
+    token = OAuth2::AccessToken.new(self.oauth2_client, @access_token)
     token.get(
       path,
       :headers => {

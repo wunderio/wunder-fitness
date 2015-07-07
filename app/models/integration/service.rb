@@ -24,6 +24,17 @@ class Integration::Service
 
   end
 
+  def oauth2_client
+    return @oauth2_client if @oauth2_client
+
+    options = {
+      :site => self.site_url,
+    }
+    options[:authorize_url] = self.oauth_authorize_url if self.oauth_authorize_url
+    options[:token_url] = self.oauth_token_url if self.oauth_token_url
+    oauth2_client = OAuth2::Client.new(self.client_id, self.client_secret, options)
+  end
+
   def name
     self.class.name.demodulize.underscore
   end
